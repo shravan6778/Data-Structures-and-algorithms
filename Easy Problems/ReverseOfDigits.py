@@ -11,11 +11,11 @@
 # Explanation: By reversing the digits of number, number will change into 54321.
 
 #Using Recursion
-def reverseDigitsRecurion(n, revNum, basePos):
-    if n > 0:
-        reverseDigitsRecurion(n // 10, revNum, basePos)  
-        revNum[0] += (n % 10) * basePos[0]       
-        basePos[0] *= 10 
+def reverseDigitsRecurion(num,rev=0):
+    if num==0:
+        return rev
+    return reverseDigitsRecurion(num//10,rev*10+(num%10))
+     
 
 #Using String
 def reversDigitsString(n):
@@ -43,10 +43,7 @@ print("Reversing Digit by Digit : ",rev)
 
                         
 n = 4562
-revNum = [0]  
-basePos = [1]  
-reverseDigitsRecurion(n, revNum, basePos)
-print("Using Recursion : ",revNum[0])
+print("Using Recursion : ",reverseDigitsRecurion(n))
 
 num = 4562
 print("Using String : ",reversDigitsString(num))
