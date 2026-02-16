@@ -9,12 +9,19 @@
 #[Naive Approach] Using Conditional Loop
 
 def lcmNative(a, b):
-    g = max(a, b) 
-    s = min(a, b)  
-    for i in range(g, a * b + 1, g):
-        if i % s == 0:
-            return i
-    return a * b 
+    r=1
+    i=2
+    while a>1 or b>1:
+        if a%i==0 or b%i==0:
+            r*=i
+            if a%i==0:
+                a//=i
+            if b%i==0:
+                b//=i
+        else:
+            i += 1
+    return r
+
 
 #[Expected Approach] Using GCD LCM Formula
 def gcd(a, b):
@@ -23,10 +30,10 @@ def gcd(a, b):
 def lcm(a, b):
     return (a // gcd(a, b)) * b
 
-a = 10
-b = 5
+a = 16
+b = 28
 print(lcmNative(a, b))
 
-a = 10
-b = 5
+a = 16
+b = 28
 print(lcm(a, b))
