@@ -33,4 +33,12 @@ print(toFindGCD(36, 60))
 #         a, b = b, a % b
 #     return a
 
+# def gcd(a,b):
+#     while(b!=0):
+#         rem=a%b
+#         a=b
+#         b=rem
+#     return a
+
+# print(gcd(36,60))
 # print(quick_gcd(36, 60)) # Output: 12
