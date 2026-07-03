@@ -49,24 +49,27 @@ def getHint(secret: str, guess: str) -> str:
 
 #Time Complexity - O(n)
 
-def getHint(self, secret: str, guess: str) -> str:
+def getHint(secret: str, guess: str) -> str:
     bulls = 0
     cows = 0
     
-    # Arrays to keep track of frequencies for digits '0' through '9'
-    secret_counts = [0] * 10
-    guess_counts = [0] * 10
+    # Hash map to track the frequency of unmatched digits in 'secret'
+    secret_counts = {}
     
-    # Single pass to find bulls and populate frequency arrays for non-bulls
+    # Loop 1: Find bulls and record unmatched secret digits
     for s, g in zip(secret, guess):
         if s == g:
             bulls += 1
         else:
-            secret_counts[int(s)] += 1
-            guess_counts[int(g)] += 1
+            # Increment the count of this character in our hash map
+            secret_counts[s] = secret_counts.get(s, 0) + 1
             
-    # Calculate cows by finding overlapping frequencies
-    for i in range(10):
-        cows += min(secret_counts[i], guess_counts[i])
-        
+    # Loop 2: Find cows from the unmatched guess digits
+    for s, g in zip(secret, guess):
+        if s != g:
+            # If the guess digit exists in our hash map and has a count > 0
+            if secret_counts.get(g, 0) > 0:
+                cows += 1
+                secret_counts[g] -= 1 # Consume the digit so it isn't double-counted
+                
     return f"{bulls}A{cows}B"
