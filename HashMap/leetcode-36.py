@@ -40,49 +40,82 @@ Explanation: Same as Example 1, except with the 5 in the top left corner being m
 
 from typing import List
 def isValidSudoku(self, board: List[List[str]]) -> bool:
+    hr={}
+    #row-wise
+    for i in board:
+        for j in i:
+            if j in hr and j!='.':
+                return False
+            else:
+                hr[j]=True
+        print(hr)
         hr={}
-        #row-wise
-        for i in board:
-            for j in i:
-                if j in hr and j!='.':
-                    return False
-                else:
-                    hr[j]=True
-            print(hr)
-            hr={}
-        #column-wise
+    #column-wise
+    hc={}
+    for i in range(len(board)):
+        for j in board:
+            if j[i] in hc and j[i]!='.':
+                return False
+            else:
+                hc[j[i]]=True
+        print(hc)
         hc={}
-        for i in range(len(board)):
-            for j in board:
-                if j[i] in hc and j[i]!='.':
-                    return False
-                else:
-                    hc[j[i]]=True
-            print(hc)
-            hc={}
-        #for 3*3 
-        hj={}
-        hk={}
-        hl={}
-        for i in range(len(board)):
+    #for 3*3 
+    hj={}
+    hk={}
+    hl={}
+    for i in range(len(board)):
+        
+        for j in range(3):
+            if board[i][j] in hj and board[i][j]!='.':
+                return False
+            else:
+                hj[board[i][j]]=True
+        for k in range(3,6):
+            if board[i][k] in hk and board[i][k]!='.':
+                return False
+            else:
+                hk[board[i][k]]=True
+        for l in range(6,9):
+            if board[i][l] in hl and board[i][l]!='.':
+                return False
+            else:
+                hl[board[i][l]]=True
+        if (i+1)%3==0:
+            hj={}
+            hk={}
+            hl={}
+    return True
+
+#Optimized Approach
+
+from typing import List
+def isValidSudoku(self, board: List[List[str]]) -> bool:
+    # Pre-allocate lists of 9 empty sets
+    rows = [set() for _ in range(9)]
+    cols = [set() for _ in range(9)]
+    boxes = [set() for _ in range(9)]
+    
+    for r in range(9):
+        for c in range(9):
+            val = board[r][c]
             
-            for j in range(3):
-                if board[i][j] in hj and board[i][j]!='.':
-                    return False
-                else:
-                    hj[board[i][j]]=True
-            for k in range(3,6):
-                if board[i][k] in hk and board[i][k]!='.':
-                    return False
-                else:
-                    hk[board[i][k]]=True
-            for l in range(6,9):
-                if board[i][l] in hl and board[i][l]!='.':
-                    return False
-                else:
-                    hl[board[i][l]]=True
-            if (i+1)%3==0:
-                hj={}
-                hk={}
-                hl={}
-        return True
+            # Skip empty cells
+            if val == '.':
+                continue
+            
+            # Convert the 2D coordinate into a 1D box index (0 through 8)
+            box_idx = (r // 3) * 3 + (c // 3)
+            
+            # Check for duplicates
+            if (val in rows[r] or 
+                val in cols[c] or 
+                val in boxes[box_idx]):
+                return False
+            
+            # Add the value to our sets
+            rows[r].add(val)
+            cols[c].add(val)
+            boxes[box_idx].add(val)
+            
+    return True
