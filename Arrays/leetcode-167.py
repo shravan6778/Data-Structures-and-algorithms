@@ -33,7 +33,7 @@ def twoSum(numbers: List[int], target: int) -> List[int]:
         if sumv==target:
             return [i+1,j+1]
         elif sumv<target:
-            j=j-1
-        else:
             i=i+1
+        else:
+            j=j-1
     
